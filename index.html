@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>नाशिक ट्रॅव्हल प्लॅनर</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%9A%86%3C/text%3E%3C/svg%3E">
+<style>
+:root{--bg:#f3f1ea;--card:#fffdf8;--ink:#1d2b3a;--mut:#5d6b78;--line:#d9d4c5;--acc:#0f5c4d;--warn:#a65a00;--bad:#a12b2b;--good:#0f6b3a;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121a22;--card:#1b2631;--ink:#e8edf2;--mut:#9fb0bf;--line:#2f3d4b;--acc:#5fd0b5;--warn:#f0b35a;--bad:#ff8a8a;--good:#6fdc9c;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121a22;--card:#1b2631;--ink:#e8edf2;--mut:#9fb0bf;--line:#2f3d4b;--acc:#5fd0b5;--warn:#f0b35a;--bad:#ff8a8a;--good:#6fdc9c;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Noto Sans Devanagari","Mukta",system-ui,sans-serif}
+main{max-width:640px;margin:0 auto;padding:16px 14px 40px}
+h1{font-size:1.45rem;margin:6px 0 2px}
+h2{font-size:1.1rem;margin:0 0 10px}
+.sub{color:var(--mut);margin:0 0 14px;font-size:.92rem}
+section{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin:0 0 14px}
+label{display:block;font-size:.88rem;color:var(--mut);margin:10px 0 3px}
+input,select,button{font:inherit;width:100%;padding:10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{background:var(--acc);color:var(--bg);border:0;font-weight:700;margin-top:12px;cursor:pointer}
+button.ghost{background:transparent;color:var(--mut);border:1px solid var(--line);font-weight:400}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--warn);outline-offset:1px}
+.big{font-size:2.6rem;font-weight:800;line-height:1.1}
+.bar{height:10px;border-radius:5px;background:var(--line);overflow:hidden;margin:8px 0}
+.bar>i{display:block;height:100%;background:var(--acc)}
+.note{font-size:.86rem;color:var(--mut);margin:8px 0 0}
+.tag{display:inline-block;padding:1px 8px;border-radius:10px;border:1px solid var(--line);font-size:.8rem;margin-right:4px}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+td,th{padding:6px 4px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.scroll{overflow-x:auto}
+ul{padding-left:18px;margin:6px 0}
+.cd{font-size:1.3rem;font-weight:700}
+.row3k{display:grid;grid-template-columns:1.3fr 1fr auto;gap:6px;margin-top:6px}
+.row3k button{margin-top:0;padding:8px 10px;width:auto}
+h3{font-size:.95rem;margin:12px 0 4px}
+.trip{border:1px solid var(--line);border-radius:8px;padding:10px;margin:0 0 10px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:8px}
+.row3 button,.trip>button{margin-top:8px;padding:8px 4px;font-size:.85rem}
+textarea{width:100%;font:inherit;font-size:.8rem;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);margin-top:8px}
+.aibox{white-space:pre-wrap;margin-top:10px;font-size:.95rem}
+main{padding-bottom:90px}
+section{box-shadow:0 1px 3px rgba(0,0,0,.07)}
+h2{border-left:4px solid var(--acc);padding-left:9px}
+h1{color:var(--acc)}
+section[hidden]{display:none}
+nav.tabs{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px);z-index:20}
+nav.tabs button{flex:1;margin:0;border:0;border-radius:0;background:transparent;color:var(--mut);padding:9px 2px;font-size:.76rem;font-weight:600;line-height:1.25}
+nav.tabs button[aria-selected="true"]{color:var(--acc);box-shadow:inset 0 3px 0 var(--acc)}
+</style>
+</head>
+<body>
+<main>
+<h1>नाशिक ट्रॅव्हल प्लॅनर</h1>
+<p class="sub">तुमचा स्वतःचा वेटिंग इतिहास नोंदवा आणि त्यावरून अंदाज, विश्लेषण आणि AI सल्ला मिळवा. बुकिंग तुम्ही IRCTC वर स्वतः करता.</p>
+
+<section data-tab="plan">
+<h2>बुकिंग कधी उघडते</h2>
+<label for="jd">प्रवासाची तारीख</label>
+<input type="date" id="jd">
+<div id="open" class="note"></div>
+</section>
+
+<section data-tab="plan">
+<h2>तिकीट कन्फर्म करण्याची योजना</h2>
+<p class="note">वरची प्रवासाची तारीख आणि खालील स्टेशने निवडा. बुकिंगच्या दिवशी काय आणि कोणत्या क्रमाने तपासायचे ते मिळते.</p>
+<div class="row"><div><label for="pf">कुठून</label><select id="pf"></select></div><div><label for="pt">कुठपर्यंत</label><select id="pt"></select></div></div>
+<button id="pl">योजना तयार करा</button>
+<div id="plan" style="margin-top:12px"></div>
+</section>
+
+<section data-tab="tix">
+<h2>नवीन तिकीट नोंदवा</h2>
+<div class="row">
+<div><label for="tn">गाडी (क्रमांक/नाव)</label><input id="tn" placeholder="12137"></div>
+<div><label for="tc">क्लास</label><select id="tc"><option>SL</option><option>3A</option><option>3E</option><option>2A</option><option>1A</option></select></div>
+</div>
+<div class="row">
+<div><label for="tf">कुठून</label><select id="tf"></select><input id="tf2" placeholder="स्टेशनचे नाव" hidden></div>
+<div><label for="tt">कुठपर्यंत</label><select id="tt"></select><input id="tt2" placeholder="स्टेशनचे नाव" hidden></div>
+</div>
+<label for="ab">प्रत्यक्ष चढण्याचे स्टेशन (बोर्डिंग पॉइंट बदलला/बदलणार असल्यास)</label><select id="ab"></select>
+<div class="row">
+<div><label for="tj">प्रवासाची तारीख</label><input type="date" id="tj"></div>
+<div><label for="tb">तिकीट काढल्याची तारीख</label><input type="date" id="tb"></div>
+</div>
+<div class="row">
+<div><label for="tw">वेटिंग प्रकार</label><select id="tw"><option>GNWL</option><option selected>RLWL</option><option>PQWL</option><option>RSWL</option><option>TQWL</option></select></div>
+<div><label for="tx">सुरुवातीचे वेटिंग नंबर</label><input type="number" id="tx" min="1" inputmode="numeric"></div>
+</div>
+<button id="add">तिकीट जोडा</button>
+</section>
+
+<section data-tab="tix">
+<h2>माझी तिकिटे</h2>
+<div id="trips"></div>
+</section>
+
+<section data-tab="ana">
+<h2>माझ्या इतिहासाचे विश्लेषण</h2>
+<div id="stats"></div>
+</section>
+
+<section data-tab="ana">
+<h2>नवीन वेटिंगचा अंदाज</h2>
+<div class="row">
+<div><label for="wt">प्रकार</label><select id="wt"><option>GNWL</option><option selected>RLWL</option><option>PQWL</option><option>RSWL</option><option>TQWL</option></select></div>
+<div><label for="wn">वेटिंग नंबर</label><input type="number" id="wn" value="20" min="1" inputmode="numeric"></div>
+</div>
+<div class="row">
+<div><label for="dl">प्रवासाला दिवस बाकी</label><input type="number" id="dl" value="45" min="0" max="60" inputmode="numeric"></div>
+<div><label for="cl">क्लास</label><select id="cl"><option value="1">SL</option><option value="0.85">3A</option><option value="0.8">3E</option><option value="0.7">2A</option><option value="0.6">1A</option></select></div>
+</div>
+<label for="bs">चढण्याचे स्टेशन</label>
+<select id="bs"></select>
+<button id="calc">अंदाज पाहा</button>
+<div id="res" style="margin-top:12px"></div>
+</section>
+
+<section data-tab="set">
+<h2>AI विश्लेषण</h2>
+<p class="note">तुमच्या नोंदी Claude ला पाठवून नमुने आणि सल्ला मिळवा. IRCTC चा live डेटा AI कडे नाही, फक्त तुमचा इतिहास.</p>
+<div class="row"><div><label for="ap">AI निवडा</label><select id="ap"><option value="gemini">Google Gemini (मोफत key)</option><option value="claude">Claude (पैसे लागतात)</option></select></div><div><label for="am">मॉडेल</label><input id="am"></div></div>
+<label for="ak">API key (ऐच्छिक)</label><div class="row"><input id="ak" type="password" placeholder="key इथे टाका" autocomplete="off"><button class="ghost" id="aks" style="margin-top:0">जतन करा</button></div>
+<p class="note">Key फक्त या फोनच्या ब्राउझरमध्ये राहते, GitHub वर जात नाही. Gemini ची मोफत key aistudio.google.com वर मिळते. मोफत वापरात Google तुमचा डेटा आपली उत्पादने सुधारण्यासाठी वापरू शकते. मॉडेलचे नाव बदलले तर इथे नवे टाका. key नसेल तर बटण प्रश्न कॉपी करून देते, तो कोणत्याही AI च्या चॅटमध्ये पेस्ट करा.</p>
+<button id="ai">AI ला विश्लेषण करायला सांगा</button>
+<div id="aiout" class="aibox"></div>
+</section>
+
+<section data-tab="set">
+<h2>बॅकअप आणि Claude चॅटमध्ये वापर</h2>
+<p class="note">नोंदी JSON म्हणून जतन करा. ती फाईल किंवा मजकूर Claude च्या चॅटमध्ये पेस्ट करून सखोल प्रश्न विचारता येतात.</p>
+<div class="row"><button class="ghost" id="exp">फाईल जतन करा</button><button class="ghost" id="cp">मजकूर दाखवा</button></div>
+<textarea id="io" rows="5" placeholder="इथे JSON दिसेल. जुना बॅकअप पेस्ट करून 'आयात' दाबा."></textarea>
+<button class="ghost" id="imp">आयात करा</button>
+<div id="sync" class="note"></div>
+</section>
+</main>
+<nav class="tabs" aria-label="मुख्य विभाग"><button data-t="plan">📅<br>योजना</button><button data-t="tix">🎫<br>तिकिटे</button><button data-t="ana">📊<br>विश्लेषण</button><button data-t="set">⚙️<br>AI व बॅकअप</button></nav>
+<script>
+if(!window.claude)window.claude={use:async()=>null};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const today=()=>new Date().toISOString().slice(0,10);
+const days=(a,b)=>Math.max(0,Math.round((new Date(b)-new Date(a))/864e5));
+const LK="ntp_trips_v2";
+let trips=[],dbDoc=null,syncMsg="फक्त या फोनमध्ये जतन होते.";
+
+function lsLoad(){try{return JSON.parse(localStorage.getItem(LK)||"[]")}catch(e){return[]}}
+function lsSave(){try{localStorage.setItem(LK,JSON.stringify(trips))}catch(e){}}
+async function persist(){
+  lsSave();
+  if(dbDoc){try{await dbDoc.set({list:trips})}catch(e){syncMsg="क्लाउड सेव्ह झाले नाही; फोनमध्ये जतन आहे."}}
+}
+async function initDb(){
+  try{
+    const user=await claude.use("user"),db=await claude.use("db");
+    if(!user||!db)return;
+    const id=await user.id(); if(!id)return;
+    dbDoc=db.doc("data/users/"+id+"/trips");
+    const snap=await dbDoc.get();
+    const remote=(snap.exists&&snap.data()&&snap.data().list)||[];
+    if(remote.length>=trips.length){trips=remote;lsSave()}else{await dbDoc.set({list:trips})}
+    syncMsg="तुमच्या खात्याशी जोडलेले. वेगळ्या डिव्हाइसवरही हा इतिहास दिसेल.";
+    renderAll();
+  }catch(e){}
+}
+
+// booking date
+let timer=null;
+const fmt=d=>d.toLocaleDateString("mr-IN",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+function renderOpen(){
+  const v=$("jd").value;if(!v){$("open").textContent="तारीख निवडा.";return}
+  const j=new Date(v+"T00:00:00"),o=new Date(j);o.setDate(o.getDate()-60);o.setHours(8,0,0,0);
+  const t=new Date(j);t.setDate(t.getDate()-1);
+  $("open").innerHTML="<b>सामान्य:</b> "+fmt(o)+", सकाळी ८:००<br><b>तात्काळ:</b> "+fmt(t)+" (AC १०:००, स्लीपर ११:००)<div class=cd id=cd></div>";
+  clearInterval(timer);
+  const tick=()=>{const ms=o-new Date();const c=$("cd");if(!c)return;if(ms<=0){c.textContent="सामान्य बुकिंग उघडले आहे.";return}
+    c.textContent=Math.floor(ms/864e5)+" दिवस "+Math.floor(ms%864e5/36e5)+" तास "+Math.floor(ms%36e5/6e4)+" मि "+Math.floor(ms%6e4/1e3)+" से बाकी"};
+  tick();timer=setInterval(tick,1000);
+}
+$("jd").addEventListener("change",renderOpen);
+{const d=new Date();d.setDate(d.getDate()+60);$("jd").value=d.toISOString().slice(0,10);$("tb").value=today()}
+
+// stations (मुंबई ते बऱ्हाणपूर क्रमाने, पुढे खांडवा)
+const ST=["मुंबई CSMT","दादर","लोकमान्य टिळक टर्मिनस","ठाणे","कल्याण","कसारा","इगतपुरी","देवळाली","नाशिक रोड","लासलगाव","निफाड","मनमाड","नांदगाव","चाळीसगाव","पाचोरा","जळगाव","भुसावळ","सावदा","रावेर","निंभोरा","बऱ्हाणपूर","खांडवा"];
+function fillSt(id,def){
+  const s=$(id);
+  s.innerHTML=ST.map(x=>"<option"+(x===def?" selected":"")+">"+x+"</option>").join("")+"<option value='__o'>इतर (नाव टाइप करा)</option>";
+  s.addEventListener("change",()=>{$(id+"2").hidden=s.value!=="__o"});
+}
+fillSt("tf","नाशिक रोड");fillSt("tt","रावेर");
+$("bs").innerHTML=ST.map((x,i)=>{const f=i<5?1:x==="भुसावळ"?0.95:i>15?0.8:x==="नाशिक रोड"?0.9:0.85;return "<option value='"+f+"'"+(x==="नाशिक रोड"?" selected":"")+">"+x+"</option>"}).join("");
+function stn(id){const s=$(id);return s.value==="__o"?$(id+"2").value.trim():s.value}
+// trips
+$("add").addEventListener("click",()=>{
+  const n=$("tn").value.trim(),x=+$("tx").value;
+  if(!n||!x||!$("tj").value){alert("गाडी, प्रवासाची तारीख आणि वेटिंग नंबर भरा.");return}
+  if(!stn("tf")||!stn("tt")){alert("दोन्ही स्टेशने निवडा.");return}
+  if(stn("tf")===stn("tt")){alert("कुठून आणि कुठपर्यंत वेगळे असावे.");return}
+  trips.push({id:Date.now(),n:n,c:$("tc").value,f:stn("tf"),t:stn("tt"),ab:$("ab").value==="-"?"":$("ab").value,j:$("tj").value,b:$("tb").value||today(),
+    w:$("tw").value,s:x,k:[{d:$("tb").value||today(),n:x}],r:""});
+  $("tn").value=$("tx").value="";persist();renderAll();
+});
+let editId=null;
+const sortK=a=>a.sort((x,y)=>x.d<y.d?-1:x.d>y.d?1:0);
+function opts(list,cur,empty){return list.map(x=>`<option value="${esc(x)}"${x===cur?" selected":""}>${esc(x||empty)}</option>`).join("")}
+function editForm(t){
+  const ks=t.k.map((x,i)=>`<div class=row3k><input type=date id="ed${i}" value="${esc(x.d)}"><input type=number min=0 id="en${i}" value="${x.n}" inputmode=numeric><button class=ghost onclick="delCk(${t.id},${i})" aria-label="ही वेटिंग नोंद काढा">काढा</button></div>`).join("");
+  return `<div class=trip><datalist id=stl>${ST.map(x=>`<option value="${esc(x)}">`).join("")}</datalist><b>तिकीट संपादित करा</b>
+  <div class=row><div><label for=e_n>गाडी</label><input id=e_n value="${esc(t.n)}"></div><div><label for=e_c>क्लास</label><select id=e_c>${opts(["SL","3A","3E","2A","1A"],t.c)}</select></div></div>
+  <div class=row><div><label for=e_f>कुठून (बुक केलेले)</label><input id=e_f list=stl value="${esc(t.f)}"></div><div><label for=e_t>कुठपर्यंत</label><input id=e_t list=stl value="${esc(t.t)}"></div></div>
+  <label for=e_a>प्रत्यक्ष चढण्याचे स्टेशन (रिकामे = बदल नाही)</label><input id=e_a list=stl value="${esc(t.ab||"")}">
+  <div class=row><div><label for=e_j>प्रवासाची तारीख</label><input type=date id=e_j value="${esc(t.j)}"></div><div><label for=e_b>तिकीट काढल्याची तारीख</label><input type=date id=e_b value="${esc(t.b)}"></div></div>
+  <div class=row><div><label for=e_w>वेटिंग प्रकार</label><select id=e_w>${opts(["GNWL","RLWL","PQWL","RSWL","TQWL"],t.w)}</select></div><div><label for=e_s>सुरुवातीचे वेटिंग नंबर</label><input type=number min=1 id=e_s value="${t.s}" inputmode=numeric></div></div>
+  <label for=e_r>निकाल</label><select id=e_r>${opts(["","कन्फर्म","RAC","वेटिंग राहिले","रद्द"],t.r,"अजून खुले (निकाल नाही)")}</select>
+  <h3>वेटिंगच्या नोंदी (तारीख, नंबर)</h3>${ks}
+  <button class=ghost onclick="addCk(${t.id})">+ नोंद जोडा</button>
+  <div class=row><button onclick="saveEd(${t.id})">जतन करा</button><button class=ghost onclick="cancelEd()">रद्द करा</button></div></div>`;
+}
+function collect(id){
+  const t=trips.find(x=>x.id===id);if(!t)return false;
+  const g=i=>$(i).value,n=g("e_n").trim(),x=+g("e_s"),j=g("e_j");
+  if(!n||!x||!j||!g("e_f").trim()||!g("e_t").trim()){alert("गाडी, दोन्ही स्टेशने, प्रवासाची तारीख आणि सुरुवातीचे वेटिंग भरा.");return false}
+  const first=t.k[0];
+  let k=t.k.map((c,i)=>({d:$("ed"+i)?$("ed"+i).value||c.d:c.d,n:$("en"+i)?(+$("en"+i).value||0):c.n}));
+  t.n=n;t.c=g("e_c");t.f=g("e_f").trim();t.t=g("e_t").trim();t.ab=g("e_a").trim();t.j=j;t.b=g("e_b")||t.b;t.w=g("e_w");t.s=x;t.r=g("e_r");
+  if(k[0]&&first&&k[0].d===first.d&&k[0].n===first.n)k[0]={d:t.b,n:t.s};
+  if(!k.length)k=[{d:t.b,n:t.s}];
+  t.k=sortK(k);return true;
+}
+window.res=function(id,r){const tr=trips.find(t=>t.id===id);if(!tr)return;tr.r=r;persist();renderAll()};
+window.del=function(id){if(confirm("ही नोंद पुसायची?")){trips=trips.filter(t=>t.id!==id);if(editId===id)editId=null;persist();renderAll()}};
+window.ed=function(id){editId=id;renderAll()};
+window.cancelEd=function(){trips=lsLoad();editId=null;renderAll()};
+window.saveEd=function(id){if(collect(id)){editId=null;persist();renderAll()}};
+window.addCk=function(id){if(!collect(id))return;const t=trips.find(x=>x.id===id);t.k.push({d:today(),n:t.k[t.k.length-1].n});renderAll()};
+window.delCk=function(id,i){if(!collect(id))return;const t=trips.find(x=>x.id===id);if(t.k.length<2){alert("किमान एक नोंद हवी.");return}t.k.splice(i,1);renderAll()};
+window.upd=function(id){
+  const f=$("u"+id).value,tr=trips.find(t=>t.id===id);if(!tr||f==="")return;
+  tr.k.push({d:$("ud"+id).value||today(),n:+f});sortK(tr.k);persist();renderAll();
+};
+function renderTrips(){
+  if(!trips.length){$("trips").innerHTML="<p class=note>अजून तिकिटे नाहीत. वर नोंद करा.</p>";return}
+  $("trips").innerHTML=trips.slice().reverse().map(t=>{
+    if(t.id===editId)return editForm(t);
+    const path=t.k.map(x=>x.n).join(" → "),first=t.k[0],last=t.k[t.k.length-1],dd=days(first.d,last.d);
+    const mv=dd>0?"("+dd+" दिवसांत "+(first.n-last.n)+" ने बदल)":"";
+    const open=!t.r;
+    return `<div class=trip><b>${esc(t.n)}</b> ${esc(t.c)} <span class=tag>${esc(t.w)}</span><br><span class=note>${esc(t.f)}${t.ab?" (प्रत्यक्ष चढणार: "+esc(t.ab)+")":""} ते ${esc(t.t)}, प्रवास ${esc(t.j)}, तिकीट ${esc(t.b)}</span><div>वेटिंग: ${esc(path)} ${mv}</div>`+
+    (open?`<div class=row><input id="u${t.id}" type=number min=0 inputmode=numeric placeholder="वेटिंग नंबर"><input id="ud${t.id}" type=date value="${today()}"></div><button onclick="upd(${t.id})">वेटिंग नोंदवा</button><div class=row3><button class=ghost onclick="res(${t.id},'कन्फर्म')">कन्फर्म</button><button class=ghost onclick="res(${t.id},'RAC')">RAC</button><button class=ghost onclick="res(${t.id},'वेटिंग राहिले')">वेटिंग राहिले</button></div>`:`<div><span class=tag>निकाल: ${esc(t.r)}</span></div>`)+
+    `<div class=row><button class=ghost onclick="ed(${t.id})">संपादित करा</button><button class=ghost onclick="del(${t.id})">पुसा</button></div></div>`;
+  }).join("");
+}
+
+// analytics
+const K={GNWL:45,RLWL:24,PQWL:16,RSWL:9,TQWL:7};
+const ok=t=>t.r==="कन्फर्म"||t.r==="RAC";
+const closed=()=>trips.filter(t=>t.r);
+function rate(arr){return arr.length?Math.round(arr.filter(ok).length/arr.length*100):null}
+function group(keyf){const m={};closed().forEach(t=>{const k=keyf(t);(m[k]=m[k]||[]).push(t)});return m}
+const bucket=n=>n<=10?"१-१०":n<=30?"११-३०":n<=60?"३१-६०":"६०+";
+const dbook=t=>{const d=days(t.b,t.j);return d>=50?"५०-६० दिवस आधी":d>=20?"२०-४९ दिवस आधी":"२० च्या आत"};
+function tbl(title,m){
+  const ks=Object.keys(m);if(!ks.length)return "";
+  return "<h3>"+title+"</h3><table><tr><th>गट</th><th>तिकिटे</th><th>कन्फर्म/RAC</th></tr>"+ks.map(k=>"<tr><td>"+esc(k)+"</td><td>"+m[k].length+"</td><td>"+rate(m[k])+"%</td></tr>").join("")+"</table>";
+}
+function moveRate(type){
+  const a=trips.filter(t=>(!type||t.w===type)&&t.k.length>1).map(t=>{const f=t.k[0],l=t.k[t.k.length-1],d=days(f.d,l.d);return d>0?(f.n-l.n)/d:null}).filter(x=>x!==null);
+  return a.length>=2?a.reduce((x,y)=>x+y,0)/a.length:null;
+}
+function renderStats(){
+  const c=closed();
+  if(c.length<1){$("stats").innerHTML="<p class=note>निकाल नोंदवलेली तिकिटे आली की इथे आकडे दिसतील. आत्ता "+trips.length+" तिकिटे नोंदवलेली आहेत.</p>";return}
+  let h="<p>एकूण "+c.length+" पूर्ण तिकिटे, कन्फर्म/RAC: <b>"+rate(c)+"%</b></p>";
+  const WD=["रविवार","सोमवार","मंगळवार","बुधवार","गुरुवार","शुक्रवार","शनिवार"],MO=["जाने","फेब्रु","मार्च","एप्रिल","मे","जून","जुलै","ऑग","सप्टें","ऑक्टो","नोव्हें","डिसें"];
+  h+=tbl("वेटिंग प्रकारानुसार",group(t=>t.w))+tbl("सुरुवातीच्या वेटिंगनुसार",group(t=>bucket(t.s)))+tbl("चढण्याच्या स्टेशननुसार",group(t=>t.f))+tbl("स्टेशन जोडीनुसार",group(t=>t.f+(t.ab?" → "+t.ab:"")+" ते "+t.t))+tbl("किती दिवस आधी काढले",group(dbook))+tbl("प्रवासाच्या वारानुसार",group(t=>WD[new Date(t.j).getDay()]))+tbl("प्रवासाच्या महिन्यानुसार",group(t=>MO[new Date(t.j).getMonth()]));
+  const gt=group(t=>t.n);
+  h+="<h3>गाडीनुसार मर्यादा</h3><table><tr><th>गाडी</th><th>सर्वात मोठे कन्फर्म झालेले वेटिंग</th><th>सर्वात लहान न झालेले</th></tr>"+Object.keys(gt).map(k=>{const a=gt[k].filter(ok).map(t=>t.s),b=gt[k].filter(t=>!ok(t)).map(t=>t.s);return "<tr><td>"+esc(k)+"</td><td>"+(a.length?Math.max(...a):"-")+"</td><td>"+(b.length?Math.min(...b):"-")+"</td></tr>"}).join("")+"</table><p class=note>अशीच मर्यादा ConfirmTkt प्रत्येक गाडीसाठी ठेवते. तुमच्या नोंदींवरून ती तुमच्या गाडीसाठी तयार होईल.</p>";
+  const m=moveRate();if(m!==null)h+="<p>सरासरी वेटिंग दिवसाला "+m.toFixed(1)+" ने पुढे सरकते (तुमच्या नोंदींवरून).</p>";
+  h+=c.length<5?"<p class=note>अजून नोंदी कमी आहेत. ५-१० नंतर आकडे अधिक भरवशाचे होतील.</p>":"";
+  $("stats").innerHTML=h;
+}
+function estimate(){
+  const t=$("wt").value,n=Math.max(1,+$("wn").value||1),d=Math.min(60,Math.max(0,+$("dl").value||0)),c=+$("cl").value,s=+$("bs").value;
+  const ph=Math.max(2,Math.min(92,Math.exp(-n/K[t])*(0.45+0.55*d/60)*c*s*100));
+  const sim=closed().filter(x=>x.w===t&&bucket(x.s)===bucket(n));
+  const okc=sim.filter(ok).length,p=(okc+3*ph/100)/(sim.length+3)*100;
+  const col=p>=60?"var(--good)":p>=30?"var(--warn)":"var(--bad)";
+  const m=moveRate(t);
+  let h="<div class=big style='color:"+col+"'>~"+Math.round(p)+"%</div><div class=bar><i style='width:"+p+"%;background:"+col+"'></i></div>";
+  h+="<p class=note>सोपे सूत्र: "+Math.round(ph)+"%. तुमचा इतिहास (याच प्रकारचे आणि याच वेटिंग गटाचे): "+(sim.length?sim.length+" पैकी "+okc+" कन्फर्म/RAC":"अजून नोंदी नाहीत")+". नोंदी वाढल्या की अंदाज तुमच्या डेटाकडे झुकतो.</p>";
+  if(m!==null){const pr=Math.round(n-m*d);h+="<p>तुमच्या सरासरी गतीने प्रवासापर्यंत वेटिंग सुमारे "+(pr<=0?"संपून कन्फर्म होऊ शकते":pr)+".</p>"}
+  $("res").innerHTML=h;
+}
+$("calc").addEventListener("click",estimate);
+
+// AI
+function buildPrompt(){
+  return "तू भारतीय रेल्वे तिकीट इतिहासाचा विश्लेषक आहेस. खालील JSON एका प्रवाशाच्या नोंदी आहेत (n=गाडी, c=क्लास, f=बुक केलेले स्टेशन, ab=प्रत्यक्ष चढण्याचे स्टेशन, t=कुठे, j=प्रवास तारीख, b=तिकीट काढल्याची तारीख, w=वेटिंग प्रकार, s=सुरुवातीचे वेटिंग, k=तारीखनिहाय वेटिंग नंबर, r=निकाल). मराठीत, मोबाईलवर वाचता येईल असे छोटे उत्तर दे: १) नमुने (कोणते स्टेशन, प्रकार किंवा दिवस आधी काढलेले कन्फर्म होतात, सोर्स स्टेशनचे तिकीट नाशिक रोडपेक्षा चांगले ठरले का), २) वेटिंग किती वेगाने सरकते, ३) पुढच्या तिकिटासाठी ३ ठोस सूचना. नोंदी कमी असतील तर तसे स्पष्ट सांग आणि अंदाज निश्चित असल्याचे दाखवू नकोस. बॉट किंवा ऑटोमेशनचा उल्लेख करू नकोस.\n\n"+JSON.stringify(trips.map(({id,...r})=>r));
+}
+const PK={gemini:"ntp_key_gemini",claude:"ntp_api_key"},PM={gemini:"ntp_model_gemini",claude:"ntp_model_claude"},DM={gemini:"gemini-3.8-flash",claude:"claude-sonnet-5-5"};
+const lg=k=>{try{return localStorage.getItem(k)||""}catch(e){return""}};
+const sg=(k,v)=>{try{v?localStorage.setItem(k,v):localStorage.removeItem(k)}catch(e){}};
+function loadProv(){const p=$("ap").value;$("ak").value=lg(PK[p]);$("am").value=lg(PM[p])||DM[p];sg("ntp_ai_prov",p)}
+$("ap").value=lg("ntp_ai_prov")||"gemini";loadProv();
+$("ap").addEventListener("change",loadProv);
+$("aks").addEventListener("click",()=>{
+  const p=$("ap").value,m=$("am").value.trim();
+  sg(PK[p],$("ak").value.trim());sg(PM[p],m===DM[p]?"":m);
+  $("aiout").textContent="सेटिंग्ज या फोनमध्ये जतन झाल्या.";
+});
+async function askGemini(prompt,key,model,out){
+  const r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+encodeURIComponent(model)+":generateContent",{method:"POST",
+    headers:{"content-type":"application/json","x-goog-api-key":key},body:JSON.stringify({contents:[{parts:[{text:prompt}]}]})});
+  const d=await r.json();
+  if(!r.ok){out.textContent="AI ने त्रुटी दिली: "+((d.error&&d.error.message)||r.status)+(r.status===404?" (मॉडेलचे नाव तपासा)":"")+(r.status===429?" (मोफत मर्यादा संपली, थोड्या वेळाने प्रयत्न करा)":"");return}
+  const parts=(d.candidates&&d.candidates[0]&&d.candidates[0].content&&d.candidates[0].content.parts)||[];
+  out.textContent=parts.map(x=>x.text||"").join("")||"उत्तर रिकामे आले.";
+}
+async function askClaude(prompt,key,model,out){
+  const r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",
+    headers:{"content-type":"application/json","x-api-key":key,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},
+    body:JSON.stringify({model:model,max_tokens:1500,messages:[{role:"user",content:prompt}]})});
+  const d=await r.json();
+  if(!r.ok){out.textContent="AI ने त्रुटी दिली: "+((d.error&&d.error.message)||r.status);return}
+  out.textContent=(d.content||[]).filter(x=>x.type==="text").map(x=>x.text).join("\n");
+}
+$("ai").addEventListener("click",async()=>{
+  const out=$("aiout");
+  if(!trips.length){out.textContent="आधी काही तिकिटे नोंदवा.";return}
+  const prompt=buildPrompt();
+  out.textContent="विचार करत आहे...";
+  try{
+    const sample=await claude.use("sample");
+    if(sample){const r=await sample(prompt,{onText:({text})=>{out.textContent=text}});out.textContent=r.text;return}
+  }catch(e){}
+  const p=$("ap").value,key=$("ak").value.trim()||lg(PK[p]),model=$("am").value.trim()||DM[p];
+  if(!key){
+    $("io").value=prompt;
+    try{await navigator.clipboard.writeText(prompt);out.textContent="Key नाही, म्हणून प्रश्न कॉपी केला आहे. तो Gemini, Grok, ChatGPT किंवा Claude च्या चॅटमध्ये पेस्ट करा. किंवा वर key टाकून जतन करा."}
+    catch(e){out.textContent="Key नाही. खालच्या चौकटीत प्रश्न दिला आहे. तो कॉपी करून कोणत्याही AI च्या चॅटमध्ये पेस्ट करा. किंवा वर key टाकून जतन करा."}
+    return;
+  }
+  try{p==="gemini"?await askGemini(prompt,key,model,out):await askClaude(prompt,key,model,out)}
+  catch(e){out.textContent="AI शी संपर्क झाला नाही. इंटरनेट, key आणि मॉडेलचे नाव तपासा."}
+});
+
+// export / import
+$("cp").addEventListener("click",()=>{$("io").value=JSON.stringify(trips)});
+$("exp").addEventListener("click",async()=>{
+  try{const dl=await claude.use("downloads");if(!dl){const bl=new Blob([JSON.stringify(trips,null,1)],{type:"application/json"}),u=URL.createObjectURL(bl),a=document.createElement("a");a.href=u;a.download="waiting-history.json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);return}
+    await dl.save({filename:"waiting-history.json",data:JSON.stringify(trips,null,1)})}catch(e){$("io").value=JSON.stringify(trips)}
+});
+$("imp").addEventListener("click",()=>{
+  try{const a=JSON.parse($("io").value);if(!Array.isArray(a))throw 0;
+    const ids=new Set(trips.map(t=>t.id));a.forEach(t=>{if(t&&t.id&&Array.isArray(t.k)&&!ids.has(t.id))trips.push(t)});
+    persist();renderAll();$("io").value=""}catch(e){alert("JSON वाचता आला नाही.")}
+});
+
+function renderAll(){renderTrips();renderStats();estimate();$("sync").textContent=syncMsg}
+// plan
+$("ab").innerHTML="<option value='-'>बदलणार नाही</option>"+ST.map(x=>"<option>"+x+"</option>").join("");
+["pf","pt"].forEach((id,k)=>{$(id).innerHTML=ST.map(x=>"<option"+(x===(k?"रावेर":"नाशिक रोड")?" selected":"")+">"+x+"</option>").join("")});
+function mk(o,J){const d=new Date(J);d.setDate(d.getDate()+o);return d.toLocaleDateString("mr-IN",{weekday:"short",day:"numeric",month:"short"})}
+$("pl").addEventListener("click",()=>{
+  const j=$("jd").value,f=$("pf").value,t=$("pt").value;
+  if(!j){$("plan").textContent="आधी वर प्रवासाची तारीख निवडा.";return}
+  if(f===t){$("plan").textContent="कुठून आणि कुठपर्यंत वेगळे निवडा.";return}
+  const J=new Date(j+"T00:00:00"),fi=ST.indexOf(f),ti=ST.indexOf(t),dir=ti>fi?1:-1;
+  const far=[];for(let i=ti+dir;i>=0&&i<ST.length&&far.length<3;i+=dir)far.push(ST[i]);
+  const bsl=ST.indexOf("भुसावळ"),split=(fi<bsl&&ti>bsl)||(fi>bsl&&ti<bsl);
+  const ob=-60,h=[];
+  h.push("<h3>१. बुकिंगच्या दिवशी ("+mk(ob,J)+", सकाळी ८:००)</h3><p>IRCTC ची तारीख म्हणजे तुम्ही जिथून चढता त्या स्टेशनवरील तारीख. ८:०० ते ८:३० मध्ये खालील क्रमाने तपासा, जे आधी कन्फर्म/RAC/सर्वात कमी वेटिंग दिसेल ते घ्या:</p><ul>");
+  h.push("<li><b>"+esc(f)+" ते "+esc(t)+"</b>, "+mk(0,J)+" (मुख्य)</li>");
+  far.forEach(x=>h.push("<li><b>"+esc(f)+" ते "+esc(x)+"</b>, "+mk(0,J)+" (पुढे उतरून जा; उतरण्याचे स्टेशन आधी असले तरी चालते)</li>"));
+  if(split)h.push("<li><b>"+esc(f)+" ते भुसावळ</b> आणि भुसावळ ते "+esc(t)+" असे दोन वेगळे तिकिटे</li>");
+  const early=[];for(let i=fi-dir;i>=0&&i<ST.length;i-=dir)early.push(ST[i]);
+  early.forEach(x=>h.push("<li><b>"+esc(x)+" ते "+esc(t)+"</b>, "+mk(0,J)+" (आधीच्या स्टेशनचे तिकीट; कन्फर्म/RAC झाल्यावर बोर्डिंग पॉइंट "+esc(f)+" ला बदला)</li>"));
+  h.push("<li><b>"+esc(f)+" ते "+esc(t)+"</b>, "+mk(-1,J)+" आणि "+mk(1,J)+" (एक दिवस मागे-पुढे)</li></ul>");
+  h.push("<h3>आधीच्या स्टेशनचे तिकीट आणि बोर्डिंग पॉइंट बदल</h3><p class=note>मुंबई CSMT, दादर, लोकमान्य टिळक टर्मिनस, ठाणे आणि कल्याण ही स्टेशने सोर्स स्टेशन आहेत. तिथूनचे तिकीट GNWL तून मोठ्या कोट्यात येते. तुमच्या स्वतःच्या नोंदींत 'GNWL विरुद्ध RLWL/PQWL' कोणते जिंकते ते पाहा.</p><ul><li>तिकीट कन्फर्म किंवा RAC झाल्यावरच IRCTC मध्ये 'Booked Ticket History' मधून बोर्डिंग पॉइंट बदलता येतो. वेटिंग तिकिटावर बदल होत नाही.</li><li>बदल फक्त एकदाच करता येतो आणि मूळ स्टेशनवर चढण्याचा हक्क जातो. बदललेल्या स्टेशनवर चढला नाहीत तर बर्थ दुसऱ्याला जाऊ शकतो.</li><li>तात्काळ तिकिटावर आणि Vikalp पर्याय निवडलेल्या PNR वर बदल मर्यादित किंवा बंद असू शकतो. म्हणून या युक्तीसाठी Vikalp बंद ठेवावा लागेल का ते बुकिंगवेळी तपासा.</li><li>वगळलेल्या टप्प्याचे भाडे परत मिळत नाही. म्हणजे आधीच्या स्टेशनपासूनचे संपूर्ण भाडे द्यावे लागते.</li><li>वेळमर्यादा: मार्च 2026 पासून रेल्वेने गाडी सुटण्याच्या ३० मिनिटे आधीपर्यंत बदल जाहीर केला आहे, पण IRCTC च्या मदत पानावर अजून जुना २४ तासांचा नियम दिसतो. म्हणून शक्य तितक्या लवकर बदला आणि PNR पुन्हा तपासा.</li></ul>");
+  h.push("<h3>२. वेटिंग आले तर वेटिंग नोंदवायचे दिवस</h3><ul>"+[-45,-30,-14,-7,-3,-1].map(o=>"<li>"+mk(o,J)+"</li>").join("")+"</ul><p class=note>प्रत्येक वेळी वर 'तिकीट नोंदवा' मध्ये आजचे वेटिंग नोंदवा. वेटिंग सरकण्याचा तुमचा वेग इथूनच कळतो.</p>");
+  h.push("<h3>३. प्रवासाच्या दिवशी ("+mk(0,J)+")</h3><ul><li>चार्ट तयार होण्याच्या सुमारे ४ तास आधी पुन्हा स्थिती तपासा.</li><li>कन्फर्म नसल्यास Current तिकीट पाहा आणि तेवढ्यातच पर्यायी गाडी तयार ठेवा.</li></ul>");
+  h.push("<h3>४. शेवटी</h3><p>तिकीट कन्फर्म/RAC/वेटिंग काय राहिले ते वर नोंदवा. ५-१० नोंदींनंतर 'AI ला विश्लेषण करायला सांगा' वापरा.</p>");
+  $("plan").innerHTML=h.join("")+"<button class=ghost id=ics>कॅलेंडरमध्ये आठवणी जोडा (.ics फाईल)</button>";
+  $("ics").onclick=()=>{const c=makeIcs(J,f,t);if(c)saveFile("nashik-reminders.ics",c,"text/calendar")};
+});
+trips=lsLoad();renderOpen();renderAll();initDb();
+
+
+async function saveFile(name,text,mime){
+  try{const dl=await claude.use("downloads");if(dl){await dl.save({filename:name,data:text});return}}catch(e){}
+  const bl=new Blob([text],{type:mime}),u=URL.createObjectURL(bl),a=document.createElement("a");
+  a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);
+}
+function makeIcs(J,f,t){
+  const p=n=>String(n).padStart(2,"0"),dt=d=>d.getFullYear()+p(d.getMonth()+1)+p(d.getDate());
+  const now=new Date(),stamp=now.getUTCFullYear()+p(now.getUTCMonth()+1)+p(now.getUTCDate())+"T"+p(now.getUTCHours())+p(now.getUTCMinutes())+"00Z";
+  const midnight=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const add=o=>{const d=new Date(J);d.setDate(d.getDate()+o);return d};
+  const ev=[];
+  const push=(id,sum,d,st,en,al)=>{
+    if(d<midnight)return;
+    const L=["BEGIN:VEVENT","UID:"+id+"-"+dt(J)+"@ntp","DTSTAMP:"+stamp,"SUMMARY:"+sum];
+    if(st)L.push("DTSTART:"+dt(d)+"T"+st,"DTEND:"+dt(d)+"T"+en);else L.push("DTSTART;VALUE=DATE:"+dt(d));
+    L.push("BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:"+sum,"TRIGGER:"+al,"END:VALARM","END:VEVENT");
+    ev.push(L.join("\r\n"));
+  };
+  push("open","बुकिंग उघडते: "+f+" ते "+t,add(-60),"080000","083000","-PT15M");
+  [45,30,14,7,3,1].forEach(o=>push("chk"+o,"वेटिंग नोंदवा: "+f+" ते "+t,add(-o),"090000","091500","PT0S"));
+  push("day","प्रवासाचा दिवस: चार्टच्या आधी स्थिती तपासा",add(0),null,null,"PT7H");
+  if(!ev.length){alert("सर्व तारखा निघून गेल्या आहेत.");return null}
+  return "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//ntp//mr//EN\r\n"+ev.join("\r\n")+"\r\nEND:VCALENDAR";
+}
+const TABS=["plan","tix","ana","set"];
+function showTab(t){
+  if(!TABS.includes(t))t="plan";
+  document.querySelectorAll("section[data-tab]").forEach(s=>{s.hidden=s.dataset.tab!==t});
+  document.querySelectorAll("nav.tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.t===t?"true":"false"));
+  try{history.replaceState(null,"","#"+t)}catch(e){}
+  window.scrollTo(0,0);
+}
+document.querySelectorAll("nav.tabs button").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.t)));
+window.addEventListener("hashchange",()=>showTab(location.hash.slice(1)));
+showTab(location.hash.slice(1));
+</script>
+</body>
+</html>
